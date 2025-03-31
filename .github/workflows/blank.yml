@@ -1,32 +1,38 @@
-name: Zip Selected Files
+name: Zip Resource Pack
 
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
-
-env:
-  ZIP_NAME: MatkaSMP.zip
+      - main  # Runs the workflow when changes are pushed to the main branch
 
 jobs:
-  zip-files:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Create zip archive
-        run: |
-          zip -r ${{ env.ZIP_NAME }} pack.png pack.mcmeta assets/
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Archive Release
-        uses: thedoctor0/zip-release@master
+      - name: Create Zip File
+        run: |
+          zip -r resourcepack.zip * -x ".git*" ".github*" "resourcepack.zip"
+
+      - name: Upload Zip to Releases
+        uses: softprops/action-gh-release@v1
         with:
-          name: selected-files
-          path: ${{ env.ZIP_NAME }}
+          files: resourcepack.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Display upload results
+      - name: Move Zip to GitHub Pages
         run: |
-          echo "Download URL: ${{ steps.upload_resource_pack.outputs.url }}"
-          echo "Hash Code: ${{ steps.upload_resource_pack.outputs.hash }}"
+          mkdir -p public
+          mv resourcepack.zip public/
+          touch public/index.html
+        shell: bash
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: public
