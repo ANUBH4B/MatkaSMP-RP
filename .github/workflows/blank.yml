@@ -25,3 +25,8 @@ jobs:
         with:
           name: selected-files
           path: ${{ env.ZIP_NAME }}
+
+      - name: Display upload results
+        run: |
+          echo "Download URL: ${{ steps.upload_resource_pack.outputs.url }}"
+          echo "Hash Code: ${{ steps.upload_resource_pack.outputs.hash }}"
