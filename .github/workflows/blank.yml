@@ -20,8 +20,8 @@ jobs:
         run: |
           zip -r ${{ env.ZIP_NAME }} pack.png pack.mcmeta assets/
 
-      - name: Upload zip artifact
-        uses: actions/upload-artifact@v4
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
         with:
           name: selected-files
           path: ${{ env.ZIP_NAME }}
