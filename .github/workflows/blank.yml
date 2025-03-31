@@ -1,0 +1,27 @@
+name: Zip Selected Files
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  ZIP_NAME: MatkaSMP.zip
+
+jobs:
+  zip-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Create zip archive
+        run: |
+          zip -r ${{ env.ZIP_NAME }} pack.png pack.mcmeta assets/
+
+      - name: Upload zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: selected-files
+          path: ${{ env.ZIP_NAME }}
