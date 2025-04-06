@@ -48,6 +48,12 @@ jobs:
             ```
             ${{ steps.sha.outputs.sha1 }}
             ```
+  
+            🔧 **Update in your server.properties file:**
+            ```
+            resource-pack=https://github.com/ANUBH4B/MatkaSMP-RP/releases/latest/download/matkasmp-rp.zip
+            resource-pack-sha1=${{ steps.sha.outputs.sha1 }}
+            ```
           files: |
             dist/MatkaSMP-RP-${{ steps.version.outputs.version }}.zip
             dist/matkasmp-rp.zip
