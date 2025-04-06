@@ -29,6 +29,12 @@ jobs:
           zip -r "dist/MatkaSMP-RP-${VERSION}.zip" . -x ".git/*" ".github/*" "dist/*"
           cp "dist/MatkaSMP-RP-${VERSION}.zip" "dist/matkasmp-rp.zip"
 
+      - name: Generate SHA-1 for matkasmp-rp.zip
+        run: |
+          sha1sum dist/matkasmp-rp.zip | cut -d " " -f1 > dist/sha1.txt
+          echo "SHA-1:"
+          cat dist/sha1.txt
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
@@ -36,8 +42,15 @@ jobs:
           name: MatkaSMP Resource Pack v${{ steps.version.outputs.version }}
           body: |
             MatkaSMP Resource Pack version ${{ steps.version.outputs.version }}
+
+            ✅ **SHA-1** (for server.properties):  
+            ```
+            $(cat dist/sha1.txt)
+            ```
+
           files: |
             dist/MatkaSMP-RP-${{ steps.version.outputs.version }}.zip
             dist/matkasmp-rp.zip
+            dist/sha1.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
