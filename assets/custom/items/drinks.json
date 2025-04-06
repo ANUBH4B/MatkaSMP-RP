@@ -1,0 +1,19 @@
+{
+	"model": {
+		"type": "select",
+		"property": "custom_model_data",
+		"fallback": {
+			"type": "model",
+			"model": "minecraft:item/honey_bottle"
+		},
+		"cases": [
+			{
+				"when": "rum",
+				"model": {
+					"type": "model",
+					"model": "custom:item/drink_rum"
+				}
+			}
+		]
+	}
+}

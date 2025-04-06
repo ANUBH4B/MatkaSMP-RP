@@ -1,0 +1,43 @@
+name: Release Minecraft Resource Pack 
+
+on:
+  push:
+    paths:
+      - '**'
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Read VERSION.txt
+        id: version
+        run: |
+          VERSION=$(cat VERSION.txt | tr -d '\r')
+          echo "Using version: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create Resource Pack Zips
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          mkdir dist
+          zip -r "dist/MatkaSMP-RP-${VERSION}.zip" . -x ".git/*" ".github/*" "dist/*"
+          cp "dist/MatkaSMP-RP-${VERSION}.zip" "dist/matkasmp-rp.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: MatkaSMP Resource Pack v${{ steps.version.outputs.version }}
+          body: |
+            MatkaSMP Resource Pack version ${{ steps.version.outputs.version }}
+          files: |
+            dist/MatkaSMP-RP-${{ steps.version.outputs.version }}.zip
+            dist/matkasmp-rp.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
