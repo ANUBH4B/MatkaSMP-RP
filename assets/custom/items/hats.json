@@ -8,31 +8,31 @@
 		},
 		"cases": [
 			{
-				"when": "hat1",
+				"when": ["hat1", "hat_headevent_black"],
 				"model": {
 					"type": "model",
 					"model": "custom:item/hat_headevent_black"
 				}
 			},
 			{
-				"when": "hat2",
+				"when": ["hat2", "hat_headevent_white"],
 				"model": {
 					"type": "model",
 					"model": "custom:item/hat_headevent_white"
 				}
 			},
 			{
-				"when": "hat3",
+				"when": ["hat3", "example_hat_1"],
 				"model": {
 					"type": "model",
-					"model": "custom:item/hat_alex"
+					"model": "custom:item/example_hat_1"
 				}
 			},
 			{
-				"when": "hat4",
+				"when": ["hat4", "example_hat_2"],
 				"model": {
 					"type": "model",
-					"model": "custom:item/hat_enderdragon"
+					"model": "custom:item/example_hat_2"
 				}
 			}
 		]
